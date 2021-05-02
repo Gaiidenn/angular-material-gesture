@@ -10,6 +10,7 @@ import { MatTabGroupGestureDirective } from './mat-tab-group-gesture.directive';
   imports: [
   ],
   exports: [
+    MatTabGroupGestureDirective
   ]
 })
 export class MatTabGroupGestureModule { }

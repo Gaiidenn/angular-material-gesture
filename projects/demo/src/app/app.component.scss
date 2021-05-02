@@ -1,0 +1,22 @@
+mat-toolbar {
+  height: 64px;
+}
+mat-tab-group {
+  height: calc(100% - 65px);
+  ::ng-deep .mat-tab-body-wrapper {
+    min-height: calc(100% - 48px);
+  }
+}
+p, h1, h2, h3, h4, h5 {
+  padding: 0 16px;
+}
+hr {
+  margin: 0 16px;
+}
+ul li {
+  padding: 0 16px 0 0;
+  margin-bottom: 8px;
+}
+p, ul {
+  font-size: 14px;
+}
