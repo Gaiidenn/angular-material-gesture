@@ -19,7 +19,7 @@ export class MatTabGroupGestureDirective implements OnInit {
   private skipBodySwipe = false;
   private bodyCurrentScroll?: { x: number; y: number };
 
-  @Input() swipeLimitWidth = 200;
+  @Input() swipeLimitWidth = 80;
   @Input() connectEdges = true;
 
   constructor(

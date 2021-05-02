@@ -1,24 +1,55 @@
-# MatTabGroupGesture
+# Angular Material TabGroup Gesture
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.12.
+This library provide a simple directive to enable gesture behaviors for the MatTabGroup component on top of @angular/material library.
 
-## Code scaffolding
+#####Gesture features :
 
-Run `ng generate component component-name --project mat-tab-group-gesture` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project mat-tab-group-gesture`.
-> Note: Don't forget to add `--project mat-tab-group-gesture` or else it will be added to the default project in your `angular.json` file. 
+* Scroll tab header with your finger IF there are too much tabs to show it all on your screen
+* Swipe between tabs by swiping the tab content from left to right (or right to left)
 
-## Build
 
-Run `ng build mat-tab-group-gesture` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Getting started
+Install the library from `npm`
 
-## Publishing
+`npm i --save @angular-material-gesture/mat-tab-group-gesture`
 
-After building your library with `ng build mat-tab-group-gesture`, go to the dist folder `cd dist/mat-tab-group-gesture` and run `npm publish`.
+Next, import the MatTabGroupGestureModule in your app's module
 
-## Running unit tests
+<b>app.module.ts</b>
 
-Run `ng test mat-tab-group-gesture` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```ts
+import { MatTabGroupGestureModule } from 'mat-tab-group-gesture';
+...
+@NgModule({
+  ...
+  imports: [
+    ...
+    MatTabGroupGestureModule,
+  ],
+  ...
+})
+export class AppModule { }
+```
 
-## Further help
+After that, you will be able to add gesture directive to mat-tab-group :
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```html
+<mat-tab-group matTabGroupGesture [swipeLimitWidth]="80" [connectEdges]="true">
+    ...
+</mat-tab-group>
+```
+
+## API Documentation
+
+#### MatTabGroupGesture
+Directive responsible for managing gesture behaviors
+
+Selector: `matTabGroupGesture`
+
+#### Properties
+
+| Name   | Default value    | Description
+| -----  | -------    | -----------
+| swipeLimitWidth   | 80    | The minimum length of the "swipe" gesture to trigger the tabs navigation
+| connectEdges   | true    | If true, the first tab and the last tab are connected (swiping for next tab on last tab will swipe to the first tab & vice-versa)
+
