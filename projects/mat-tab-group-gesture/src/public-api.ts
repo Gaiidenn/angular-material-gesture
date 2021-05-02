@@ -3,3 +3,4 @@
  */
 
 export * from './lib/mat-tab-group-gesture.module';
+export * from './lib/mat-tab-group-gesture.directive';

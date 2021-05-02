@@ -1,11 +1,21 @@
 {
   "name": "mat-tab-group-gesture",
-  "version": "0.0.1",
+  "version": "1.0.1",
+  "description": "An angular directive to add gesture behaviors to @angular/material mat-tab-group component",
+  "homepage": "https://github.com/Gaiidenn/angular-material-gesture/tree/master/projects/mat-tab-group-gesture",
+  "author": "Jérôme Vanbersy <j.vanbersy@gmail.com> (https://github.com/Gaiidenn)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gaiidenn/angular-material-gesture/tree/master/projects/mat-tab-group-gesture"
+  },
   "peerDependencies": {
     "@angular/common": "^11.2.12",
-    "@angular/core": "^11.2.12"
+    "@angular/core": "^11.2.12",
+    "@angular/material": "^11.2.11",
+    "@angular/cdk": "^11.2.11"
   },
   "dependencies": {
     "tslib": "^2.0.0"
-  }
+  },
+  "license": "MIT"
 }
