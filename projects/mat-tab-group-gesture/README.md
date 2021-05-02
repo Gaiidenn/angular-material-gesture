@@ -2,11 +2,15 @@
 
 This library provide a simple directive to enable gesture behaviors for the MatTabGroup component on top of @angular/material library.
 
-#####Gesture features :
+####Gesture features :
 
 * Scroll tab header with your finger IF there are too much tabs to show it all on your screen
 * Swipe between tabs by swiping the tab content from left to right (or right to left)
 
+## Demo
+Live demo on Stackblitz
+
+**https://mat-tab-group-gesture-demo.stackblitz.io/**
 
 ## Getting started
 Install the library from `npm`

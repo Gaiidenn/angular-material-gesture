@@ -1,4 +1,7 @@
 
+### 1.0.3 (2021-05-02)
+* Added demo to documentation
+
 ### 1.0.2 (2021-05-02)
 * Changed default value for swipeLimitWidth property from 200px to 80px
 * Added description & documentation
