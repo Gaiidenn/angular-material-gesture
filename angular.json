@@ -3,5 +3,46 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "mat-tab-group-gesture": {
+      "projectType": "library",
+      "root": "projects/mat-tab-group-gesture",
+      "sourceRoot": "projects/mat-tab-group-gesture/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/mat-tab-group-gesture/tsconfig.lib.json",
+            "project": "projects/mat-tab-group-gesture/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/mat-tab-group-gesture/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/mat-tab-group-gesture/src/test.ts",
+            "tsConfig": "projects/mat-tab-group-gesture/tsconfig.spec.json",
+            "karmaConfig": "projects/mat-tab-group-gesture/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/mat-tab-group-gesture/tsconfig.lib.json",
+              "projects/mat-tab-group-gesture/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "mat-tab-group-gesture"
 }

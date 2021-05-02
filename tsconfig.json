@@ -8,6 +8,12 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "paths": {
+      "mat-tab-group-gesture": [
+        "dist/mat-tab-group-gesture/mat-tab-group-gesture",
+        "dist/mat-tab-group-gesture"
+      ]
+    },
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
