@@ -8,9 +8,9 @@ This library provide a simple directive to enable gesture behaviors for the MatT
 * Swipe between tabs by swiping the tab content from left to right (or right to left)
 
 ## Demo
-Live demo on Stackblitz
 
-**https://mat-tab-group-gesture-demo.stackblitz.io/**
+
+**[Live demo on Stackblitz](https://stackblitz.com/edit/mat-tab-group-gesture-demo?file=src/app/app.component.ts)**
 
 ## Getting started
 Install the library from `npm`
