@@ -97,7 +97,8 @@ export class MatTabGroupGestureDirective implements OnInit {
     fromEvent(this.body, 'touchstart')
       .pipe(
         switchMap((e: any) => {
-          if (e.path.findIndex((p: any) => p.className && p.className.indexOf('mat-slider') > -1) > -1) { this.skipBodySwipe = true; }
+          // need to test classname to string otherwise can throw error
+          if (e.path.findIndex((p: any) => p.className && typeof p.className === 'string' && p.className.indexOf('mat-slider') > -1) > -1) { this.skipBodySwipe = true; }
           // after a mouse down, we'll record all mouse moves
           return fromEvent(this.body, 'touchmove')
             .pipe(
