@@ -1,6 +1,6 @@
 
 import { Directive, Input, OnInit } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
 import { fromEvent } from 'rxjs';
 import { pairwise, switchMap, takeUntil, tap } from 'rxjs/operators';
 
