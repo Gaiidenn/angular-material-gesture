@@ -151,7 +151,7 @@ export class MatTabGroupGestureDirective implements OnInit {
     if (this.tabGroup.selectedIndex === 0 || this.tabGroup.selectedIndex === null) {
       this.tabGroup.selectedIndex = this.connectEdges ? this.tabGroup._tabs.length - 1 : this.tabGroup.selectedIndex;
     }
-    else { this.tabGroup.selectedIndex--; }
+    else { this.tabGroup.selectedIndex = this.tabGroup.selectedIndex - 1; }
   }
 
   private _nextTab(): void {
@@ -159,7 +159,7 @@ export class MatTabGroupGestureDirective implements OnInit {
       this.tabGroup.selectedIndex = this.connectEdges ? 0 : this.tabGroup.selectedIndex;
     }
     else if (this.tabGroup.selectedIndex === null) { this.tabGroup.selectedIndex = 0; }
-    else { this.tabGroup.selectedIndex++; }
+    else { this.tabGroup.selectedIndex = this.tabGroup.selectedIndex + 1; }
   }
 
 }
