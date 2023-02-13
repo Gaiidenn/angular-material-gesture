@@ -4,11 +4,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## VERSIONS Compatibility
 
-Angular 11 => v1.0.5
-Angular 12 => v1.1.0
-Angular 13 => v1.2.0
-Angular 14 => v1.3.0
-Angular 15 => v1.4.0
+* Angular 11 => v1.0.5
+* Angular 12 => v1.1.0
+* Angular 13 => v1.2.0
+* Angular 14 => v1.3.0
+* Angular 15 => v1.4.0
 
 ## Development server
 
