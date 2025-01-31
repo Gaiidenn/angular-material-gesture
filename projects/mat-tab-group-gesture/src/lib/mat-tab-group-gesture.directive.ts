@@ -19,6 +19,9 @@ export class MatTabGroupGestureDirective implements OnInit {
   private skipBodySwipe = false;
   private bodyCurrentScroll?: { x: number; y: number };
 
+  private prevButton: any;
+  private nextButton: any;
+
   @Input() swipeLimitWidth = 80;
   @Input() connectEdges = true;
   @Input() bodySwipe = true;
@@ -40,6 +43,9 @@ export class MatTabGroupGestureDirective implements OnInit {
     this.body = this.tabGroup._elementRef.nativeElement.querySelector('.mat-mdc-tab-body-wrapper');
     if (!this.body) { throw new Error('No body found in DOM! Aborting...'); }
 
+    this.prevButton = this.tabGroup._elementRef.nativeElement.querySelector('.mat-mdc-tab-header-pagination-before');
+    this.nextButton = this.tabGroup._elementRef.nativeElement.querySelector('.mat-mdc-tab-header-pagination-after');
+
     this._handleHeadersEvents();
     this._handleBodyEvents();
   }
@@ -51,7 +57,9 @@ export class MatTabGroupGestureDirective implements OnInit {
         tap(() => {
           this.originalHeadersListTransition = this.headersList.style.transition;
           this.headersList.style.transition = 'none';
-          this.headersMaxScroll = -1 * (this.headersList.offsetWidth - this.headers.offsetWidth + 64);
+          this.headersMaxScroll = -1 * (
+            this.headersList.offsetWidth - this.headers.offsetWidth
+            + this.prevButton.offsetWidth + this.nextButton.offsetWidth);
         }),
         switchMap((e) => {
           // after a mouse down, we'll record all mouse moves
@@ -60,7 +68,8 @@ export class MatTabGroupGestureDirective implements OnInit {
               // we'll stop (and unsubscribe) once the user releases the mouse
               // this will trigger a 'mouseup' event
               takeUntil(fromEvent(this.headers, 'touchend').pipe(
-                tap(() => this.headersList.style.transition = this.originalHeadersListTransition)
+                tap(() => this.headersList.style.transition = this.originalHeadersListTransition),
+                tap(() => this.tabGroup._tabHeader.scrollDistance = this._getScrollDistance()),
               )),
               // pairwise lets us get the previous value to draw a line from
               // the previous point to the current point
@@ -93,6 +102,13 @@ export class MatTabGroupGestureDirective implements OnInit {
     if (newScroll < this.headersMaxScroll) { newScroll = this.headersMaxScroll; }
     // this._renderer.setStyle(this._headersList, 'transform', `translateX(${newScroll}px)`);
     this.headersList.style.transform = `translateX(${newScroll}px)`;
+  }
+
+  private _getScrollDistance(): number {
+    const style = window.getComputedStyle(this.headersList);
+    const matrix = new WebKitCSSMatrix(style.transform);
+    const translateX = matrix.m41;
+    return translateX * -1;
   }
 
   private _handleBodyEvents(): void {
