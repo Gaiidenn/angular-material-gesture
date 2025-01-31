@@ -56,4 +56,5 @@ Selector: `matTabGroupGesture`
 | -----  | -------    | -----------
 | swipeLimitWidth   | 80    | The minimum length of the "swipe" gesture to trigger the tabs navigation
 | connectEdges   | true    | If true, the first tab and the last tab are connected (swiping for next tab on last tab will swipe to the first tab & vice-versa)
+| bodySwipe   | true    | If true, tabs content is also swipeable, otherwise only headers can be swiped
 
