@@ -21,6 +21,7 @@ export class MatTabGroupGestureDirective implements OnInit {
 
   @Input() swipeLimitWidth = 80;
   @Input() connectEdges = true;
+  @Input() bodySwipe = true;
 
   constructor(
     private tabGroup: MatTabGroup,
@@ -28,6 +29,8 @@ export class MatTabGroupGestureDirective implements OnInit {
   }
 
   ngOnInit(): void {
+    this.skipBodySwipe = !this.bodySwipe;
+
     this.headers = this.tabGroup._elementRef.nativeElement.querySelector('mat-tab-header');
     if (!this.headers) { throw new Error('No headers found in DOM! Aborting...'); }
 
@@ -98,7 +101,12 @@ export class MatTabGroupGestureDirective implements OnInit {
       .pipe(
         switchMap((e: any) => {
           // need to test classname to string otherwise can throw error
-          if (e.path.findIndex((p: any) => p.className && typeof p.className === 'string' && p.className.indexOf('mat-slider') > -1) > -1) { this.skipBodySwipe = true; }
+          const path = e.composed ? e.composedPath() : e.path;
+          if (path.findIndex((p: any) => p.className
+            && typeof p.className === 'string'
+            && p.className.indexOf('mat-mdc-slider') > -1) > -1) {
+            this.skipBodySwipe = true;
+          }
           // after a mouse down, we'll record all mouse moves
           return fromEvent(this.body, 'touchmove')
             .pipe(
@@ -106,7 +114,8 @@ export class MatTabGroupGestureDirective implements OnInit {
               // this will trigger a 'mouseup' event
               takeUntil(fromEvent(this.body, 'touchend').pipe(
                 tap(() => {
-                  this.skipBodySwipe = false;
+                  // this.skipBodySwipe = false;
+                  this.skipBodySwipe = !this.bodySwipe;
                   if (!this.bodyCurrentScroll) { return; }
                   if (Math.abs(this.bodyCurrentScroll.y) > Math.abs(this.bodyCurrentScroll.x)) { return; }
                   const limitPrev = this.swipeLimitWidth;
