@@ -1,6 +1,6 @@
 
 import { Directive, Input, OnInit } from '@angular/core';
-import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatTabGroup } from '@angular/material/tabs';
 import { fromEvent } from 'rxjs';
 import { pairwise, switchMap, takeUntil, tap } from 'rxjs/operators';
 
@@ -31,10 +31,10 @@ export class MatTabGroupGestureDirective implements OnInit {
     this.headers = this.tabGroup._elementRef.nativeElement.querySelector('mat-tab-header');
     if (!this.headers) { throw new Error('No headers found in DOM! Aborting...'); }
 
-    this.headersList = this.headers.querySelector('.mat-tab-list');
+    this.headersList = this.headers.querySelector('.mat-mdc-tab-list');
     if (!this.headersList) { throw new Error('No headers list found in DOM! Aborting...'); }
 
-    this.body = this.tabGroup._elementRef.nativeElement.querySelector('.mat-tab-body-wrapper');
+    this.body = this.tabGroup._elementRef.nativeElement.querySelector('.mat-mdc-tab-body-wrapper');
     if (!this.body) { throw new Error('No body found in DOM! Aborting...'); }
 
     this._handleHeadersEvents();
