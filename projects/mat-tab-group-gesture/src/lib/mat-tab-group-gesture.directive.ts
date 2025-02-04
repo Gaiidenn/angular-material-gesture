@@ -1,6 +1,6 @@
 
 import { Directive, Input, OnInit } from '@angular/core';
-import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatTabGroup } from '@angular/material/tabs';
 import { fromEvent } from 'rxjs';
 import { pairwise, switchMap, takeUntil, tap } from 'rxjs/operators';
 
@@ -19,8 +19,12 @@ export class MatTabGroupGestureDirective implements OnInit {
   private skipBodySwipe = false;
   private bodyCurrentScroll?: { x: number; y: number };
 
+  private prevButton: any;
+  private nextButton: any;
+
   @Input() swipeLimitWidth = 80;
   @Input() connectEdges = true;
+  @Input() bodySwipe = true;
 
   constructor(
     private tabGroup: MatTabGroup,
@@ -28,14 +32,19 @@ export class MatTabGroupGestureDirective implements OnInit {
   }
 
   ngOnInit(): void {
+    this.skipBodySwipe = !this.bodySwipe;
+
     this.headers = this.tabGroup._elementRef.nativeElement.querySelector('mat-tab-header');
     if (!this.headers) { throw new Error('No headers found in DOM! Aborting...'); }
 
-    this.headersList = this.headers.querySelector('.mat-tab-list');
+    this.headersList = this.headers.querySelector('.mat-mdc-tab-list');
     if (!this.headersList) { throw new Error('No headers list found in DOM! Aborting...'); }
 
-    this.body = this.tabGroup._elementRef.nativeElement.querySelector('.mat-tab-body-wrapper');
+    this.body = this.tabGroup._elementRef.nativeElement.querySelector('.mat-mdc-tab-body-wrapper');
     if (!this.body) { throw new Error('No body found in DOM! Aborting...'); }
+
+    this.prevButton = this.tabGroup._elementRef.nativeElement.querySelector('.mat-mdc-tab-header-pagination-before');
+    this.nextButton = this.tabGroup._elementRef.nativeElement.querySelector('.mat-mdc-tab-header-pagination-after');
 
     this._handleHeadersEvents();
     this._handleBodyEvents();
@@ -48,7 +57,9 @@ export class MatTabGroupGestureDirective implements OnInit {
         tap(() => {
           this.originalHeadersListTransition = this.headersList.style.transition;
           this.headersList.style.transition = 'none';
-          this.headersMaxScroll = -1 * (this.headersList.offsetWidth - this.headers.offsetWidth + 64);
+          this.headersMaxScroll = -1 * (
+            this.headersList.offsetWidth - this.headers.offsetWidth
+            + this.prevButton.offsetWidth + this.nextButton.offsetWidth);
         }),
         switchMap((e) => {
           // after a mouse down, we'll record all mouse moves
@@ -57,7 +68,8 @@ export class MatTabGroupGestureDirective implements OnInit {
               // we'll stop (and unsubscribe) once the user releases the mouse
               // this will trigger a 'mouseup' event
               takeUntil(fromEvent(this.headers, 'touchend').pipe(
-                tap(() => this.headersList.style.transition = this.originalHeadersListTransition)
+                tap(() => this.headersList.style.transition = this.originalHeadersListTransition),
+                tap(() => this.tabGroup._tabHeader.scrollDistance = this._getScrollDistance()),
               )),
               // pairwise lets us get the previous value to draw a line from
               // the previous point to the current point
@@ -92,13 +104,25 @@ export class MatTabGroupGestureDirective implements OnInit {
     this.headersList.style.transform = `translateX(${newScroll}px)`;
   }
 
+  private _getScrollDistance(): number {
+    const style = window.getComputedStyle(this.headersList);
+    const matrix = new WebKitCSSMatrix(style.transform);
+    const translateX = matrix.m41;
+    return translateX * -1;
+  }
+
   private _handleBodyEvents(): void {
     // this will capture all touchstart events from the headers element
     fromEvent(this.body, 'touchstart')
       .pipe(
         switchMap((e: any) => {
           // need to test classname to string otherwise can throw error
-          if (e.path.findIndex((p: any) => p.className && typeof p.className === 'string' && p.className.indexOf('mat-slider') > -1) > -1) { this.skipBodySwipe = true; }
+          const path = e.composed ? e.composedPath() : e.path;
+          if (path.findIndex((p: any) => p.className
+            && typeof p.className === 'string'
+            && p.className.indexOf('mat-mdc-slider') > -1) > -1) {
+            this.skipBodySwipe = true;
+          }
           // after a mouse down, we'll record all mouse moves
           return fromEvent(this.body, 'touchmove')
             .pipe(
@@ -106,7 +130,8 @@ export class MatTabGroupGestureDirective implements OnInit {
               // this will trigger a 'mouseup' event
               takeUntil(fromEvent(this.body, 'touchend').pipe(
                 tap(() => {
-                  this.skipBodySwipe = false;
+                  // this.skipBodySwipe = false;
+                  this.skipBodySwipe = !this.bodySwipe;
                   if (!this.bodyCurrentScroll) { return; }
                   if (Math.abs(this.bodyCurrentScroll.y) > Math.abs(this.bodyCurrentScroll.x)) { return; }
                   const limitPrev = this.swipeLimitWidth;
@@ -152,6 +177,7 @@ export class MatTabGroupGestureDirective implements OnInit {
       this.tabGroup.selectedIndex = this.connectEdges ? this.tabGroup._tabs.length - 1 : this.tabGroup.selectedIndex;
     }
     else { this.tabGroup.selectedIndex = this.tabGroup.selectedIndex - 1; }
+    this.tabGroup.updatePagination();
   }
 
   private _nextTab(): void {
@@ -160,6 +186,7 @@ export class MatTabGroupGestureDirective implements OnInit {
     }
     else if (this.tabGroup.selectedIndex === null) { this.tabGroup.selectedIndex = 0; }
     else { this.tabGroup.selectedIndex = this.tabGroup.selectedIndex + 1; }
+    this.tabGroup.updatePagination();
   }
 
 }

@@ -1,9 +1,9 @@
 mat-toolbar {
   height: 64px;
 }
-mat-tab-group {
+mat-mdc-tab-group {
   height: calc(100% - 65px);
-  ::ng-deep .mat-tab-body-wrapper {
+  ::ng-deep .mat-mdc-tab-body-wrapper {
     min-height: calc(100% - 48px);
   }
 }
